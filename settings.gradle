@@ -1,0 +1,6 @@
+rootProject.name = 'electronic-bill-api'
+include 'electronic-bill-application'
+include 'electronic-bill-controller'
+include 'electronic-bill-model'
+include 'electronic-bill-service'
+
