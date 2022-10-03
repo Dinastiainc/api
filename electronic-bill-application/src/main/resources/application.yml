@@ -1,0 +1,4 @@
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: ${ELECTRONIC_BILL_LOG_PATH}/logs/electronic-bill-api/

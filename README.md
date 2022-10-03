@@ -14,3 +14,7 @@ docker build -t <nombre imagen>:<version> <ruta ubicacion Dockerfile (Contexto)>
 
 Ejemplo:
     docker build -t electronic-build-api:v1 .
+
+## Crear el contenedor
+
+-e ELECTRONIC_BILL_LOG_PATH=<ubicacion/de/la/carpeta/donde/va/guardar/los/logs>
