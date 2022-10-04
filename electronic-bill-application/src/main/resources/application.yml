@@ -1,3 +1,20 @@
+spring:
+  datasource:
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: ${URL_DB}
+    username: ${USERNAME_DB}
+    password: ${PASSWORD_DB}
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.SQLServer2012Dialect
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: ${SHOW_SQL:false}
+
+
 logging:
   config: classpath:logback-spring.xml
   file:

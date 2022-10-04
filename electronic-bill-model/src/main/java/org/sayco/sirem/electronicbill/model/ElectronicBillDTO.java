@@ -20,9 +20,15 @@ public class ElectronicBillDTO {
     private Long id;
 
     /**
-     * Información del usuario
+     * Información de tercero
      */
-    private UserDTO user;
+    private TerceroDTO tercero;
+
+
+    /**
+     * PRUEBA
+     */
+    private AaBienDTO aaBien;
 
     /**
      * Fecha de generación, se crea al guardar en la base de datos

@@ -17,4 +17,7 @@ Ejemplo:
 
 ## Crear el contenedor
 
--e ELECTRONIC_BILL_LOG_PATH=<ubicacion/de/la/carpeta/donde/va/guardar/los/logs>
+docker run -d --name <nombre contenedor> -e ELECTRONIC_BILL_LOG_PATH=/ruta/de/los/logs/ -v /ruta/equipo/anfitrion/:/ruta/de/los/logs/ -p <puerto Salida>:<puerto contenedor>
+
+Ejemplo:
+    docker run -d --name electonicBill11 -e ELECTRONIC_BILL_LOG_PATH=/tmp/logs/ -v C:\\tmp\\logs\\:/tmp/logs/  -p 8091:8080 electronic-build-api:v2
