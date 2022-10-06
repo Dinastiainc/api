@@ -2,7 +2,6 @@ package org.sayco.sirem.electronicbill.repository.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.util.Date;
 
@@ -14,83 +13,67 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Data
-@Table(name = "mtprocli")
+@Table(name = "MTPROCLI")
 public class Tercero {
 
     /**
      * Número de identificación de terceros
      */
     @Id
-    @Column(name = "nit")
+    @Column(name = "NIT")
     String nit;
 
     /**
-     * Detalle
+     * Nombre completo del tercero
      */
-    @Column(name = "detalle")
-    String detalle;
+    @Column(name = "NOMBRE")
+    String nombre;
 
     /**
-     * Nombre del banco
+     * El primer nombre del tercero
      */
-    @Column(name = "bancocli")
-    String nombreBanco;
+    @Column(name = "NOMBRE1")
+    String nombre1;
 
     /**
-     * email cartera
+     * Primer apellido1
      */
-    @Column(name = "emailcar")
-    String emailCartera;
+    @Column(name = "APELLIDO1")
+    String apellido1;
 
     /**
-     * email factura electronica
+     * Primer apellido2
      */
-    @Column(name = "emailfec")
-    String emailFacturaElectronica;
+    @Column(name = "APELLIDO2")
+    String apellido2;
 
     /**
-     *
+     * Código de la ciudad
      */
-    @Column(name = "nitexterio")
-    String nitExterio;
+    @Column(name = "CIUDAD")
+    String ciudad;
 
     /**
-     * Coódigo unico que identifica la entidad en SGS
+     * Código postal
      */
-    @Column(name = "entidad")
-    String entidad;
+    @Column(name = "CODPOSTAL")
+    String codigoPostal;
 
-    @Column(name = "clavepago")
-     String clavePago;//3
+    /**
+     * direccion
+     */
+    @Column(name = "DIRECCION")
+     String direccion;
 
-    @Column(name = "cdusocfdi")
-     String  cdusocfdi; //10
+    /**
+     * correo
+     */
+    @Column(name = "EMAIL")
+     String  email;
 
-    @Column(name = "complecfdi")
-     String complecfdi; //250
-
-    @Column(name = "emailcxp")
-     String emailCxp; //250
-
-    @Column(name = "habilprov")
-     int habilProv; //1
-
-    @Column(name = "plazojusto")
-     int plazoJusto; //1
-
-    @Column(name = "regtrsimp")
-     int regtrsimp; //1
-
-    @Column(name = "codregfis")
-     String codRegFis; //5
-
-    @Column(name = "comelectro")
-     int comelectro; // 1
-
-
-
-     @Column(name = "medpag")
-    String medPag; //5
-
-
+    /**
+     * Fecha de ingreso o creación
+     */
+    @Column(name = "FECHAING")
+     Date fechaIngreso;
 }

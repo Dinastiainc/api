@@ -16,53 +16,47 @@ public class TerceroDTO {
     private String nit;
 
     /**
-     * Detalle
+     * Nombre completo del tercero
      */
-    private String detalle;
+    private String nombre;
 
     /**
-     * Nombre del banco
+     * El primer nombre del tercero
      */
-    private String nombreBanco;
+    private String nombre1;
 
     /**
-     * email cartera
+     * Primer apellido1
      */
-    private String emailCartera;
+    private String apellido1;
 
     /**
-     * email factura electronica
+     * Primer apellido2
      */
-    private String emailFacturaElectronica;
+    private String apellido2;
 
     /**
-     *
+     * Código de la ciudad
      */
-    private String nitExterio;
+    private String ciudad;
 
     /**
-     * Coódigo unico que identifica la entidad en SGS
+     * Código postal
      */
-    private String entidad;
+    private String codigoPostal;
 
-    private String clavePago;//3
+    /**
+     * direccion
+     */
+    private String direccion;
 
-    private String  cdusocfdi;  //10
+    /**
+     * correo
+     */
+    private String email;
 
-    private String complecfdi; //250
-
-    private String emailCxp; //250
-
-    private int habilProv; //1
-
-    private int plazoJusto; //1
-
-    private int regtrsimo; //1
-
-    private String codRegFis; //5
-
-    private int comelectro; // 1
-
-     private String medPag; //5
-
+    /**
+     * Fecha de ingreso o creación
+     */
+    private Date fechaIngreso;
 }
