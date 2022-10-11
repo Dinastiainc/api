@@ -58,11 +58,17 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
     @Override
     public ElectronicBillDTO save(ElectronicBillDTO electronicBillDTO) {
         try{
-            List<CiudadDTO> ciudades = findCityByName(electronicBillDTO.getCiudad());
-            electronicBillDTO.getTercero().setCiudad(ciudades.get(0).getCod());
-            TerceroDTO tercero = saveTercero(electronicBillDTO.getTercero());
+            TerceroDTO tercero = electronicBillDTO.getTercero();
+
+            // CUIDAD del Sirem es nombre, tocar convertirlo en codigo.
+            List<CiudadDTO> ciudades = findCityByName(tercero.getCiudad());
+            if (ciudades.size() == 0) {
+                throw new Exception(String.format("Cuidad no encontrado con nombre %s", tercero.getCiudad()));
+            }
+            tercero.setCiudad(ciudades.get(0).getCod());
+            saveTercero(tercero);
             return electronicBillDTO;
-        }catch(Exception e){
+        } catch(Exception e){
             throw new IllegalArgumentException(String.format("No se pudo guardar la factura electronica"), e);
         }
     }
