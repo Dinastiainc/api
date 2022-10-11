@@ -21,55 +21,55 @@ public class Tercero {
      */
     @Id
     @Column(name = "NIT")
-    String nit;
+    private String nit;
 
     /**
      * Nombre completo del tercero
      */
     @Column(name = "NOMBRE")
-    String nombre;
+    private String nombre;
 
     /**
      * El primer nombre del tercero
      */
     @Column(name = "NOMBRE1")
-    String nombre1;
+    private String nombre1;
 
     /**
      * Primer apellido1
      */
     @Column(name = "APELLIDO1")
-    String apellido1;
+    private String apellido1;
 
     /**
      * Primer apellido2
      */
     @Column(name = "APELLIDO2")
-    String apellido2;
+    private String apellido2;
 
     /**
      * Código de la ciudad
      */
     @Column(name = "CIUDAD")
-    String ciudad;
+    private String ciudad;
 
     /**
      * Código postal
      */
     @Column(name = "CODPOSTAL")
-    String codigoPostal;
+    private String codigoPostal;
 
     /**
      * direccion
      */
     @Column(name = "DIRECCION")
-     String direccion;
+    private String direccion;
 
     /**
      * correo
      */
     @Column(name = "EMAIL")
-     String  email;
+    private String  email;
 
 
 
@@ -79,55 +79,66 @@ public class Tercero {
      * Nombre de la ciudad
      */
     @Column(name = "CIUDADPRV ")
-    String ciudadPrv;
+    private String ciudadPrv;
 
     /**
      * Correo de cartera
      */
     @Column(name = "EMAILCAR")
-    String emailCartera;
+    private String emailCartera;
 
     /**
      * Correo de cuenta por pagar
      */
     @Column(name = "EMAILCXP")
-    String emailCuentaPorPagar;
+    private String emailCuentaPorPagar;
 
     /**
      * Correo de reseccion de factura electronica
      */
     @Column(name = "EMAILFEC")
-    String emailReseccionFacElec;
+    private String emailReseccionFacElec;
 
     /**
      * Fecha de ingreso del registro
      */
     @Column(name = "FECING")
-    Date fechaIngreso;
+    private Date fechaRegistroCliente;
 
     /**
      * Fecha cuando se modifica el registro
      */
     @Column(name = "FECMOD")
-    Date fechaModificacion;
+    private Date fechaModificacion;
 
     /**
      * telefono 1
      */
     @Column(name = "TEL1")
-    String telefono1;
+    private String telefono1;
 
     /**
      * telefono 2
      */
     @Column(name = "TEL2")
-    String telefono2;
+    private String telefono2;
 
     /**
      * Correo del proveedor
      */
     @Column(name = "EMAILP")
-    String emailProveedor;
+    private String emailProveedor;
+
+    /**
+     * segundo Nombre (persona natural)
+     */
+    @Column(name = "NOMBRE2")
+    private String nombre2;
 
 
+    /**
+     * Fecha de ingreso o creación
+     */
+    @Column(name = "FECHAING")
+    private Date fechaIngreso;
 }

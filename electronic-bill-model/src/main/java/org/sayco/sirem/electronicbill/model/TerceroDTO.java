@@ -82,7 +82,7 @@ public class TerceroDTO {
     /**
      * Fecha de ingreso del registro
      */
-    private Date fechaIngreso;
+    private Date fechaRegistroCliente;
 
     /**
      * Fecha cuando se modifica el registro
@@ -103,4 +103,14 @@ public class TerceroDTO {
      * Correo del proveedor
      */
     private String emailProveedor;
+
+    /**
+     * segundo Nombre (persona natural)
+     */
+    private String nombre2;
+
+
+    private Date fechaIngreso;
+
+
 }

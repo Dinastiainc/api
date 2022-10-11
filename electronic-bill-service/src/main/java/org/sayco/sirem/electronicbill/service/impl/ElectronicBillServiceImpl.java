@@ -13,7 +13,10 @@ import org.sayco.sirem.electronicbill.service.impl.mappers.CiudadMappers;
 import org.sayco.sirem.electronicbill.service.impl.mappers.TerceroMappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Esta clase es la que se comunica con el modulo de repositorio ya sea para consultar, crear, eliminar
@@ -58,7 +61,7 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
     @Override
     public ElectronicBillDTO save(ElectronicBillDTO electronicBillDTO) {
         try{
-            List<CiudadDTO> ciudades = findCityByName(electronicBillDTO.getTercero().getNombreCiudad());
+            List<CiudadDTO> ciudades = findCityByName(electronicBillDTO.getTercero().getCiudadPrv());
             electronicBillDTO.getTercero().setCiudad(ciudades.get(0).getCod());
             TerceroDTO tercero = saveTercero(electronicBillDTO.getTercero());
             return electronicBillDTO;
@@ -75,7 +78,6 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
         try{
             if(nombreCiudad.isEmpty())
                 throw new IllegalArgumentException(String.format("El nombre de la ciudad no debe ir vacio %s.", nombreCiudad));
-
             List<Ciudad> ciudades = ciudadRepository.findByNombre(nombreCiudad);
             return ciudadMappers.toListDTO(ciudades);
         }catch(Exception e){
@@ -88,12 +90,29 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      */
     private TerceroDTO saveTercero(TerceroDTO tercero) {
         try {
+            if (tercero.getNit().isEmpty())
+                throw new IllegalArgumentException(String.format("El campo NIT no puede estar vacio"));
             Tercero terceroTmp = terceroMappers.toEntity(tercero);
+            Optional<Tercero> terceroOld = terceroRepository.findById(tercero.getNit());
+            if(terceroOld.isPresent()) {
+                terceroTmp.setFechaModificacion(new Date());
+                terceroTmp.setFechaRegistroCliente(terceroOld.get().getFechaRegistroCliente());
+                terceroTmp.setFechaIngreso(terceroOld.get().getFechaIngreso());
+            } else {
+                terceroTmp.setFechaRegistroCliente(new Date());
+                terceroTmp.setFechaIngreso(new Date());
+            }
+            if(terceroTmp.getEmail().isEmpty())
+                throw new IllegalArgumentException(String.format("El campo EMAIL no puede estar vacio"));
+            terceroTmp.setEmailCartera(terceroTmp.getEmail());
+            terceroTmp.setEmailCuentaPorPagar(terceroTmp.getEmail());
+            terceroTmp.setEmailProveedor(terceroTmp.getEmail());
+            terceroTmp.setEmailReseccionFacElec(terceroTmp.getEmail());
+            terceroTmp.setNombre(terceroTmp.getNombre1().concat(" ").concat(terceroTmp.getNombre2()));
             return terceroMappers.toDTO(terceroRepository.save(terceroTmp));
         } catch (Exception e) {
             throw new IllegalArgumentException(String.format("No se pudo guardar terceros"), e);
         }
     }
-
 }
 
