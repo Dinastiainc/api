@@ -71,9 +71,63 @@ public class Tercero {
     @Column(name = "EMAIL")
      String  email;
 
+
+
+
+
     /**
-     * Fecha de ingreso o creación
+     * Nombre de la ciudad
      */
-    @Column(name = "FECHAING")
-     Date fechaIngreso;
+    @Column(name = "CIUDADPRV ")
+    String ciudadPrv;
+
+    /**
+     * Correo de cartera
+     */
+    @Column(name = "EMAILCAR")
+    String emailCartera;
+
+    /**
+     * Correo de cuenta por pagar
+     */
+    @Column(name = "EMAILCXP")
+    String emailCuentaPorPagar;
+
+    /**
+     * Correo de reseccion de factura electronica
+     */
+    @Column(name = "EMAILFEC")
+    String emailReseccionFacElec;
+
+    /**
+     * Fecha de ingreso del registro
+     */
+    @Column(name = "FECING")
+    Date fechaIngreso;
+
+    /**
+     * Fecha cuando se modifica el registro
+     */
+    @Column(name = "FECMOD")
+    Date fechaModificacion;
+
+    /**
+     * telefono 1
+     */
+    @Column(name = "TEL1")
+    String telefono1;
+
+    /**
+     * telefono 2
+     */
+    @Column(name = "TEL2")
+    String telefono2;
+
+    /**
+     * Correo del proveedor
+     */
+    @Column(name = "EMAILP")
+    String emailProveedor;
+
+
 }

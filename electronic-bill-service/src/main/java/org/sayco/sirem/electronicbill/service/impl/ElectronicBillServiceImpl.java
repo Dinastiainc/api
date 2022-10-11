@@ -58,7 +58,7 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
     @Override
     public ElectronicBillDTO save(ElectronicBillDTO electronicBillDTO) {
         try{
-            List<CiudadDTO> ciudades = findCityByName(electronicBillDTO.getCiudad());
+            List<CiudadDTO> ciudades = findCityByName(electronicBillDTO.getTercero().getNombreCiudad());
             electronicBillDTO.getTercero().setCiudad(ciudades.get(0).getCod());
             TerceroDTO tercero = saveTercero(electronicBillDTO.getTercero());
             return electronicBillDTO;
@@ -73,6 +73,9 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      */
     private List<CiudadDTO> findCityByName (String nombreCiudad) {
         try{
+            if(nombreCiudad.isEmpty())
+                throw new IllegalArgumentException(String.format("El nombre de la ciudad no debe ir vacio %s.", nombreCiudad));
+
             List<Ciudad> ciudades = ciudadRepository.findByNombre(nombreCiudad);
             return ciudadMappers.toListDTO(ciudades);
         }catch(Exception e){

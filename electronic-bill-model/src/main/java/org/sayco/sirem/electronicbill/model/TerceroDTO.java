@@ -55,8 +55,52 @@ public class TerceroDTO {
      */
     private String email;
 
+
+
+
+
     /**
-     * Fecha de ingreso o creación
+     * Nombre de la ciudad
+     */
+    private String ciudadPrv;
+
+    /**
+     * Correo de cartera
+     */
+    private String emailCartera;
+
+    /**
+     * Correo de cuenta por pagar
+     */
+    private String emailCuentaPorPagar;
+
+    /**
+     * Correo de reseccion de factura electronica
+     */
+    private String emailReseccionFacElec;
+
+    /**
+     * Fecha de ingreso del registro
      */
     private Date fechaIngreso;
+
+    /**
+     * Fecha cuando se modifica el registro
+     */
+    private Date fechaModificacion;
+
+    /**
+     * telefono 1
+     */
+    private String telefono1;
+
+    /**
+     * telefono 2
+     */
+    private String telefono2;
+
+    /**
+     * Correo del proveedor
+     */
+    private String emailProveedor;
 }
