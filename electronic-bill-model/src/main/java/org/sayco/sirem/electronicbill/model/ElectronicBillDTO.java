@@ -26,6 +26,11 @@ public class ElectronicBillDTO {
     private TerceroDTO tercero;
 
     /**
+     * Nombre de la ciudad que viene de SIREM
+     */
+    private String ciudad;
+
+    /**
      * Fecha de generación, se crea al guardar en la base de datos
      */
     private Date creationDate;

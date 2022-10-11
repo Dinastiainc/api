@@ -1,4 +1,4 @@
-FROM amazoncorretto:11-al2-jdk
+FROM amazoncorretto:11-alpine
 ENV URL_DB jdbc:sqlserver://192.168.0.50:1433;encrypt=true;databaseName=PRUEBAS;schema=dbo;trustServerCertificate=true
 ENV USERNAME_DB sirem
 ENV PASSWORD_DB sirempruebas

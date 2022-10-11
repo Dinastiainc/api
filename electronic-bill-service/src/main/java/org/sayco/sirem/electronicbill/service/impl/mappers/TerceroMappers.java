@@ -9,9 +9,9 @@ import java.util.List;
 @Mapper(componentModel = "spring", config = IMapper.class)
 public interface TerceroMappers extends IMapper<TerceroDTO, Tercero> {
 
-    TerceroDTO toDTO(Tercero tercero);
+    TerceroDTO toDTO(Tercero result);
 
-    Tercero toEntity(TerceroDTO tercero);
+    Tercero toEntity(TerceroDTO result);
 
-    List<TerceroDTO> toListDTO(List<Tercero> result);
+    List<TerceroDTO> toListDTO(List<Tercero> results);
 }

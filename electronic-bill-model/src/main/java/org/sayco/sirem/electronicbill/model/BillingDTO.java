@@ -1,7 +1,6 @@
 package org.sayco.sirem.electronicbill.model;
 
 import lombok.Data;
-
 import java.util.Date;
 
 /**
