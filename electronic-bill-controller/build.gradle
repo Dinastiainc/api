@@ -4,4 +4,5 @@ dependencies {
     implementation 'org.springframework:spring-webmvc'
     implementation project(':electronic-bill-model')
     implementation project(':electronic-bill-service')
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.8'
 }

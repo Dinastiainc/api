@@ -1,5 +1,9 @@
 package org.sayco.sirem.electronicbill.controller;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.info.Info;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.sayco.sirem.electronicbill.model.ElectronicBillDTO;
 import org.sayco.sirem.electronicbill.service.ElectronicBillService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * Con esta clase es que se van a comunicar la(s) aplicacion de SIREM para hacer el proceso de factura electronica
  */
+@Tag(name = "Factura electrónica")
 @RestController
 @RequestMapping("/rest/v1/electronicBill")
 public class ElectronicBillController {
@@ -30,6 +35,7 @@ public class ElectronicBillController {
      * @param electronicBillDTO este objeto trae la informacion de la factura electronica que se va a procesar
      * @return el objeto que se almaceno es el objeto que se va a retornar
      */
+    @Operation(summary = "Guardar factura electrónica")
     @PostMapping
     public ResponseEntity<ElectronicBillDTO> save(@RequestBody ElectronicBillDTO electronicBillDTO){
         ElectronicBillDTO electronicBillDTOTmp = electronicBillService.save(electronicBillDTO);

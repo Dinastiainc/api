@@ -9,6 +9,7 @@ import org.sayco.sirem.electronicbill.repository.TerceroRepository;
 import org.sayco.sirem.electronicbill.repository.entity.Ciudad;
 import org.sayco.sirem.electronicbill.repository.entity.Tercero;
 import org.sayco.sirem.electronicbill.service.ElectronicBillService;
+import org.sayco.sirem.electronicbill.service.I18nService;
 import org.sayco.sirem.electronicbill.service.exception.ServiceException;
 import org.sayco.sirem.electronicbill.service.impl.mappers.CiudadMappers;
 import org.sayco.sirem.electronicbill.service.impl.mappers.TerceroMappers;
@@ -48,17 +49,24 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
     private final CiudadRepository ciudadRepository;
 
     /**
-     * El constructor
+     * Variable global que se encarga de inyectar la internacionalización de los mensajes para las excepciones
+     */
+    private final I18nService i18nService;
+
+    /**
+     * El constructor donde hace el proceso de inyectar las variable globales de de esta clase
      * @param terceroRepository
      * @param terceroMappers
      * @param ciudadMappers
      * @param ciudadRepository
+     * @param i18nService
      */
-    public ElectronicBillServiceImpl(TerceroRepository terceroRepository, TerceroMappers terceroMappers, CiudadMappers ciudadMappers, CiudadRepository ciudadRepository) {
+    public ElectronicBillServiceImpl(TerceroRepository terceroRepository, TerceroMappers terceroMappers, CiudadMappers ciudadMappers, CiudadRepository ciudadRepository, I18nService i18nService) {
         this.terceroRepository = terceroRepository;
         this.terceroMappers = terceroMappers;
         this.ciudadMappers = ciudadMappers;
         this.ciudadRepository = ciudadRepository;
+        this.i18nService = i18nService;
     }
 
     /**
@@ -81,10 +89,10 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      */
     private List<CiudadDTO> findCityByName (String nombreCiudad) {
             if(nombreCiudad.isEmpty())
-                throw new ServiceException(String.format("El nombre de la ciudad no debe ir vacio"));
+                throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_001));
             List<Ciudad> ciudades = ciudadRepository.findByNombre(nombreCiudad);
             if (ciudades.isEmpty())
-                throw new ServiceException(String.format("No se pudo encontrar la ciudad con este nombre %s.", nombreCiudad));
+                throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_002, nombreCiudad));
             return ciudadMappers.toListDTO(ciudades);
     }
 
@@ -93,7 +101,7 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      */
     private TerceroDTO saveTercero(TerceroDTO tercero) {
             if (tercero.getNit().isEmpty())
-                throw new ServiceException(String.format("El campo NIT no puede estar vacio"));
+                throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_003));
             Tercero terceroTmp = terceroMappers.toEntity(tercero);
             Optional<Tercero> terceroOld = terceroRepository.findById(tercero.getNit());
             if(terceroOld.isPresent()) {
@@ -105,7 +113,7 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
                 terceroTmp.setFechaIngreso(new Date());
             }
             if(terceroTmp.getEmail().isEmpty())
-                throw new ServiceException(String.format("El campo EMAIL no puede estar vacio"));
+                throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_004));
             terceroTmp.setEmailCartera(terceroTmp.getEmail());
             terceroTmp.setEmailCuentaPorPagar(terceroTmp.getEmail());
             terceroTmp.setEmailProveedor(terceroTmp.getEmail());

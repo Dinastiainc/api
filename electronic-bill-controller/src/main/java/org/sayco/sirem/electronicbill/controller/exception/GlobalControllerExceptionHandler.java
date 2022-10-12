@@ -33,7 +33,6 @@ public class GlobalControllerExceptionHandler {
      */
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity<RestException> defaultErrorHandler(Exception e) throws Exception {
-
         log.error(e.getMessage(), e);
         String err = e.getMessage();
         err = Optional.ofNullable(err).orElse(ERROR_AL_REALIZAR_LA_OPERACION);
@@ -46,7 +45,6 @@ public class GlobalControllerExceptionHandler {
 
     /**
      * Este metodo muestra la traza del debug
-     *
      * @param e
      * @return String
      */
@@ -59,7 +57,6 @@ public class GlobalControllerExceptionHandler {
         stringBuilder.append(e.getCause() != null ? e.getCause().getMessage() : "");
         stringBuilder.append(":");
         stringBuilder.append(ExceptionUtils.getStackTrace(e));
-
         return stringBuilder.toString();
     }
 }
