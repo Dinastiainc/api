@@ -4,4 +4,5 @@ include 'electronic-bill-controller'
 include 'electronic-bill-model'
 include 'electronic-bill-service'
 include 'electronic-bill-repository'
+include 'electronic-bill-util'
 
