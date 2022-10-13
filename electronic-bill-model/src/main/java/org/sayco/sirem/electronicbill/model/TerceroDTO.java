@@ -1,7 +1,6 @@
 package org.sayco.sirem.electronicbill.model;
 
 import lombok.Data;
-
 import java.util.Date;
 
 /**
@@ -54,10 +53,6 @@ public class TerceroDTO {
      * correo
      */
     private String email;
-
-
-
-
 
     /**
      * Nombre de la ciudad

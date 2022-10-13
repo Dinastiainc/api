@@ -71,10 +71,6 @@ public class Tercero {
     @Column(name = "EMAIL")
     private String  email;
 
-
-
-
-
     /**
      * Nombre de la ciudad
      */
