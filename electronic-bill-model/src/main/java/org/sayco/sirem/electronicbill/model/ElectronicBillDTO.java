@@ -13,6 +13,12 @@ import java.util.Date;
 @Data
 public class ElectronicBillDTO {
 
+    /**
+     * Número del consecutivo (Consecutivo propio de la factura electronica) se crea cuando se alamcena en la base de
+     * datos
+     */
+    private Long id;
+
 
     /**
      * Información de tercero
@@ -20,7 +26,47 @@ public class ElectronicBillDTO {
     private TerceroDTO tercero;
 
     /**
-     * Información de la factura
+     * Fecha de generación, se crea al guardar en la base de datos
      */
-    private FacturaDTO factura;
+    private Date creationDate;
+
+    /**
+     * Parametrizar seleccionar fecha para radio
+     */
+    private Date expirationDate;
+
+    /**
+     * Forma de pago
+     */
+    private String wayPay;
+
+    /**
+     * Informaión de facturación
+     */
+    private BillingDTO billing;
+
+    /**
+     * Total Bruto
+     */
+    private BigDecimal grossTotal;
+
+    /**
+     * Impuesto Total
+     */
+    private BigDecimal taxTotal;
+
+    /**
+     * Total Neto
+     */
+    private BigDecimal netTotal;
+
+    /**
+     * Codigo de barras
+     */
+    private String barCode;
+
+    /**
+     * Fecha vencimiento del formato
+     */
+    private Date formatExpirationDate;
 }
