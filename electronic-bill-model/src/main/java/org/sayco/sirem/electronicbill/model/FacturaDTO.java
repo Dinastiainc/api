@@ -56,11 +56,6 @@ public class FacturaDTO {
     private Date fechaPago;
 
     /**
-     * Es el codigo de centros de costo y e guarda en las tablas de TRADE y MVTRADE en la columna CODCC
-     */
-    private String centroDeCostos;
-
-    /**
      * Campo que representa el origen
      */
     private String origen;

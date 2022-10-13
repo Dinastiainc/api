@@ -10,7 +10,6 @@ import lombok.Data;
 @Data
 public class ElectronicBillDTO {
 
-
     /**
      * Información de Empresario
      */
@@ -20,4 +19,9 @@ public class ElectronicBillDTO {
      * Información de la factura
      */
     private FacturaDTO factura;
+
+    /**
+     * Información del recaudador
+     */
+    private RecaudadorDTO recaudador;
 }

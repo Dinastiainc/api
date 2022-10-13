@@ -1,20 +1,15 @@
 package org.sayco.sirem.electronicbill.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.sayco.sirem.electronicbill.model.CiudadDTO;
-import org.sayco.sirem.electronicbill.model.ElectronicBillDTO;
-import org.sayco.sirem.electronicbill.model.FacturaDTO;
-import org.sayco.sirem.electronicbill.model.EmpresarioDTO;
-import org.sayco.sirem.electronicbill.repository.CiudadRepository;
-import org.sayco.sirem.electronicbill.repository.MvTradeRepository;
-import org.sayco.sirem.electronicbill.repository.EmpresarioRepository;
-import org.sayco.sirem.electronicbill.repository.TradeRepository;
+import org.sayco.sirem.electronicbill.model.*;
+import org.sayco.sirem.electronicbill.repository.*;
 import org.sayco.sirem.electronicbill.repository.entity.*;
 import org.sayco.sirem.electronicbill.service.ElectronicBillService;
 import org.sayco.sirem.electronicbill.service.I18nService;
 import org.sayco.sirem.electronicbill.service.exception.ServiceException;
 import org.sayco.sirem.electronicbill.service.impl.mappers.CiudadMappers;
 import org.sayco.sirem.electronicbill.service.impl.mappers.EmpresarioMappers;
+import org.sayco.sirem.electronicbill.service.impl.mappers.RecaudadorMappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
@@ -69,6 +64,17 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
     private final MvTradeRepository mvTradeRepository;
 
     /**
+     * Variable global que se encarga de inyectar el repository RecaudadorRepository para interactuar con el
+     * modulo repository con ayuda de constructor
+     */
+    private final RecaudadorRepository recaudadorRepository;
+
+    /**
+     * Esta variable es la encargada de mapear el objeto Recaudador a RecaudadorDTO y viceversa
+     */
+    private final RecaudadorMappers recaudadorMappers;
+
+    /**
      * El constructor donde hace el proceso de inyectar las variable globales de de esta clase
      * @param empresarioRepository
      * @param empresarioMappers
@@ -77,8 +83,14 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      * @param i18nService
      * @param tradeRepository
      * @param mvTradeRepository
+     * @param recaudadorRepository
+     * @param recaudadorMappers
      */
-    public ElectronicBillServiceImpl(EmpresarioRepository empresarioRepository, EmpresarioMappers empresarioMappers, CiudadMappers ciudadMappers, CiudadRepository ciudadRepository, I18nService i18nService, TradeRepository tradeRepository, MvTradeRepository mvTradeRepository) {
+    public ElectronicBillServiceImpl(EmpresarioRepository empresarioRepository, EmpresarioMappers empresarioMappers,
+                                     CiudadMappers ciudadMappers, CiudadRepository ciudadRepository,
+                                     I18nService i18nService, TradeRepository tradeRepository,
+                                     MvTradeRepository mvTradeRepository, RecaudadorRepository recaudadorRepository,
+                                     RecaudadorMappers recaudadorMappers) {
         this.empresarioRepository = empresarioRepository;
         this.empresarioMappers = empresarioMappers;
         this.ciudadMappers = ciudadMappers;
@@ -86,6 +98,8 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
         this.i18nService = i18nService;
         this.tradeRepository = tradeRepository;
         this.mvTradeRepository = mvTradeRepository;
+        this.recaudadorRepository = recaudadorRepository;
+        this.recaudadorMappers = recaudadorMappers;
     }
 
     /**
@@ -101,7 +115,7 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
             electronicBillDTO.getEmpresario().setCiudad(ciudades.get(0).getCod());
             EmpresarioDTO empresario = saveEmpresario(electronicBillDTO.getEmpresario());
 
-            saveFactura(electronicBillDTO.getFactura(), empresario);
+            saveFactura(electronicBillDTO);
 
             return electronicBillDTO;
     }
@@ -147,62 +161,75 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
 
     /**
      * Este metodo es el encargado de guardar la factura
-     * @param factura
+     * @param electronicBillDTO
      * @return
      */
-    private FacturaDTO saveFactura (FacturaDTO factura, EmpresarioDTO empresario) {
-        Trade tradeTmp = saveTrade(factura, empresario);
-        saveMvTrade(factura, empresario, tradeTmp);
+    @Transactional
+    public FacturaDTO saveFactura (ElectronicBillDTO electronicBillDTO) {
+        Trade tradeTmp = saveTrade(electronicBillDTO);
+        saveRecaudador(electronicBillDTO.getRecaudador());
+        saveMvTrade(electronicBillDTO, tradeTmp);
         return null;
     }
 
     /**
      * Metodo que se encarga de llamar la capa de repositorio donde se maneja el objeto TRADE que es la cabecera
      * del recaudo
-     * @param factura Objeto de esta los atributos que necesita el objeto Trade
-     * @param empresario Objeto que representa el usuario de la factura
+     * @param electronicBillDTO Objeto de esta los atributos que necesita el objeto Trade
      */
-    private Trade saveTrade (FacturaDTO factura, EmpresarioDTO empresario) {
+    private Trade saveTrade (ElectronicBillDTO electronicBillDTO) {
         Trade tradeTmp = new Trade();
-        TradePk tradePkTmp = new TradePk(factura.getNumeroDeFactura(), factura.getOrigen(), factura.getTipoDcto());
+        TradePk tradePkTmp = new TradePk(electronicBillDTO.getFactura().getNumeroDeFactura(), electronicBillDTO.getFactura().getOrigen(), electronicBillDTO.getFactura().getTipoDcto());
         tradeTmp.setId(tradePkTmp);
-        tradeTmp.setNit(empresarioMappers.toEntity(empresario));
-        tradeTmp.setBruto(factura.getValorDeLicencia());
-        tradeTmp.setCorrelatid(factura.getNumeroDeFactura());
-        tradeTmp.setFecha(factura.getFechaFactura());
-        tradeTmp.setFechaIng(factura.getFechaFactura());
-        tradeTmp.setFechaMod(factura.getFechaFactura());
-        tradeTmp.setFecIng(factura.getFechaFactura());
-        tradeTmp.setFecMod(factura.getFechaFactura());
-        tradeTmp.setFecha1(factura.getFechaPago());
-        tradeTmp.setFecha2(factura.getFechaPago());
-        tradeTmp.setFecha3(factura.getFechaPago());
-        tradeTmp.setCodCc(factura.getCentroDeCostos());
+        tradeTmp.setNit(empresarioMappers.toEntity(electronicBillDTO.getEmpresario()));
+        tradeTmp.setBruto(electronicBillDTO.getFactura().getValorDeLicencia());
+        tradeTmp.setCorrelatid(electronicBillDTO.getFactura().getNumeroDeFactura());
+        tradeTmp.setFecha(electronicBillDTO.getFactura().getFechaFactura());
+        tradeTmp.setFechaIng(electronicBillDTO.getFactura().getFechaFactura());
+        tradeTmp.setFechaMod(electronicBillDTO.getFactura().getFechaFactura());
+        tradeTmp.setFecIng(electronicBillDTO.getFactura().getFechaFactura());
+        tradeTmp.setFecMod(electronicBillDTO.getFactura().getFechaFactura());
+        tradeTmp.setFecha1(electronicBillDTO.getFactura().getFechaPago());
+        tradeTmp.setFecha2(electronicBillDTO.getFactura().getFechaPago());
+        tradeTmp.setFecha3(electronicBillDTO.getFactura().getFechaPago());
+        tradeTmp.setCodCc(electronicBillDTO.getRecaudador().getCentroDeCostos());
+
         return tradeRepository.save(tradeTmp);
     }
 
     /**
      * Metodo que se encarga de llamar la capa de repositorio donde se maneja el objeto MVTRADE que es el cuerpo
      * del recaudo
-     * @param factura Objeto de esta los atributos que necesita el objeto MvTrade
-     * @param empresario Objeto que representa el usuario de la factura
+     * @param electronicBillDTO Objeto de esta los atributos que necesita el objeto MvTrade
+     * @param trade Objeto que relaciona MVTRADE con TRADE
      */
-    private MvTrade saveMvTrade(FacturaDTO factura, EmpresarioDTO empresario, Trade trade) {
+    private MvTrade saveMvTrade(ElectronicBillDTO electronicBillDTO, Trade trade) {
         MvTrade mvTradeTmp = new MvTrade();
-        mvTradeTmp.setNit(empresarioMappers.toEntity(empresario));
-        mvTradeTmp.setNombre(factura.getNombreDelEvento());
-        mvTradeTmp.setNota(factura.getNombreDelEvento());
-        mvTradeTmp.setDetalle(factura.getEstablecimiento());
-        mvTradeTmp.setValorUnit(factura.getValorDeLicencia());
-        mvTradeTmp.setVlrVenta(factura.getValorDeLicencia());
-        mvTradeTmp.setNOrden(factura.getNumeroDeLicencia());
-        mvTradeTmp.setFhCompra(factura.getFechaEvento());
-        mvTradeTmp.setFeCent(factura.getFechaFactura());
-        mvTradeTmp.setFecha(factura.getFechaFactura());
-        mvTradeTmp.setFecIng(factura.getFechaFactura());
-        mvTradeTmp.setProducto(factura.getProducto());
+        mvTradeTmp.setNit(empresarioMappers.toEntity(electronicBillDTO.getEmpresario()));
+        mvTradeTmp.setNombre(electronicBillDTO.getFactura().getNombreDelEvento());
+        mvTradeTmp.setNota(electronicBillDTO.getFactura().getNombreDelEvento());
+        mvTradeTmp.setDetalle(electronicBillDTO.getFactura().getEstablecimiento());
+        mvTradeTmp.setValorUnit(electronicBillDTO.getFactura().getValorDeLicencia());
+        mvTradeTmp.setVlrVenta(electronicBillDTO.getFactura().getValorDeLicencia());
+        mvTradeTmp.setNOrden(electronicBillDTO.getFactura().getNumeroDeLicencia());
+        mvTradeTmp.setFhCompra(electronicBillDTO.getFactura().getFechaEvento());
+        mvTradeTmp.setFeCent(electronicBillDTO.getFactura().getFechaFactura());
+        mvTradeTmp.setFecha(electronicBillDTO.getFactura().getFechaFactura());
+        mvTradeTmp.setFecIng(electronicBillDTO.getFactura().getFechaFactura());
+        mvTradeTmp.setProducto(electronicBillDTO.getFactura().getProducto());
+        mvTradeTmp.setCodCc(electronicBillDTO.getRecaudador().getCentroDeCostos());
         mvTradeTmp.setTrade(trade);
         return mvTradeRepository.save(mvTradeTmp);
+    }
+
+    /**
+     * Metodo que se encarga de llamar la capa de repositorio donde se maneja el objeto VENDEN que es la información
+     * del recaudador
+     * @param recaudador El recaudadore que se va a guardar
+     * @return El recaudador ya guardado
+     */
+    private Recaudador saveRecaudador(RecaudadorDTO recaudador) {
+        return recaudadorRepository.save(recaudadorMappers.toEntity(recaudador));
     }
 }
 

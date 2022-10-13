@@ -100,6 +100,12 @@ public class MvTrade {
     @Column(name = "PRODUCTO")
     private String producto;
 
+    /**
+     * Campo que representa centro de costos
+     */
+    @Column(name = "CODCC")
+    private String codCc;
+
     @ManyToOne
     @JoinColumns({
             @JoinColumn(name = "NRODCTO", referencedColumnName = "NRODCTO"),
