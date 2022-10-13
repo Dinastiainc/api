@@ -22,7 +22,7 @@ public class GlobalControllerExceptionHandler {
     /**
      * variable para activar el debug
      */
-    private boolean debug = false;
+    private boolean debug = true;
 
     /**
      * Este metodo se encarga de mostrar la excepcion por defecto
