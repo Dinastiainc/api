@@ -4,17 +4,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.sayco.sirem.electronicbill.model.CiudadDTO;
 import org.sayco.sirem.electronicbill.model.ElectronicBillDTO;
 import org.sayco.sirem.electronicbill.model.FacturaDTO;
-import org.sayco.sirem.electronicbill.model.TerceroDTO;
+import org.sayco.sirem.electronicbill.model.EmpresarioDTO;
 import org.sayco.sirem.electronicbill.repository.CiudadRepository;
 import org.sayco.sirem.electronicbill.repository.MvTradeRepository;
-import org.sayco.sirem.electronicbill.repository.TerceroRepository;
+import org.sayco.sirem.electronicbill.repository.EmpresarioRepository;
 import org.sayco.sirem.electronicbill.repository.TradeRepository;
 import org.sayco.sirem.electronicbill.repository.entity.*;
 import org.sayco.sirem.electronicbill.service.ElectronicBillService;
 import org.sayco.sirem.electronicbill.service.I18nService;
 import org.sayco.sirem.electronicbill.service.exception.ServiceException;
 import org.sayco.sirem.electronicbill.service.impl.mappers.CiudadMappers;
-import org.sayco.sirem.electronicbill.service.impl.mappers.TerceroMappers;
+import org.sayco.sirem.electronicbill.service.impl.mappers.EmpresarioMappers;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
@@ -30,15 +30,15 @@ import java.util.Optional;
 public class ElectronicBillServiceImpl implements ElectronicBillService {
 
     /**
-     * Variable global que se encarga de inyectar el repository TerceroRepository  para interactuar con el
+     * Variable global que se encarga de inyectar el repository EmpresarioRepository  para interactuar con el
      * modulo repository
      */
-    private final TerceroRepository terceroRepository;
+    private final EmpresarioRepository empresarioRepository;
 
     /**
-     * Esta variable es la encargada de mapear el objeto Tercero a TerceroDTO y viceversa
+     * Esta variable es la encargada de mapear el objeto Empresario a EmpresarioDTO y viceversa
      */
-    private final TerceroMappers terceroMappers;
+    private final EmpresarioMappers empresarioMappers;
 
     /**
      * Esta variable es la encargada de mapear el objeto Ciudad a CiudadDTO y viceversa
@@ -46,7 +46,7 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
     private final CiudadMappers ciudadMappers;
 
     /**
-     * Variable global que se encarga de inyectar el repository TerceroRepository  para interactuar con el
+     * Variable global que se encarga de inyectar el repository EmpresarioRepository  para interactuar con el
      * modulo repository
      */
     private final CiudadRepository ciudadRepository;
@@ -70,17 +70,17 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
 
     /**
      * El constructor donde hace el proceso de inyectar las variable globales de de esta clase
-     * @param terceroRepository
-     * @param terceroMappers
+     * @param empresarioRepository
+     * @param empresarioMappers
      * @param ciudadMappers
      * @param ciudadRepository
      * @param i18nService
      * @param tradeRepository
      * @param mvTradeRepository
      */
-    public ElectronicBillServiceImpl(TerceroRepository terceroRepository, TerceroMappers terceroMappers, CiudadMappers ciudadMappers, CiudadRepository ciudadRepository, I18nService i18nService, TradeRepository tradeRepository, MvTradeRepository mvTradeRepository) {
-        this.terceroRepository = terceroRepository;
-        this.terceroMappers = terceroMappers;
+    public ElectronicBillServiceImpl(EmpresarioRepository empresarioRepository, EmpresarioMappers empresarioMappers, CiudadMappers ciudadMappers, CiudadRepository ciudadRepository, I18nService i18nService, TradeRepository tradeRepository, MvTradeRepository mvTradeRepository) {
+        this.empresarioRepository = empresarioRepository;
+        this.empresarioMappers = empresarioMappers;
         this.ciudadMappers = ciudadMappers;
         this.ciudadRepository = ciudadRepository;
         this.i18nService = i18nService;
@@ -97,11 +97,11 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
     @Transactional
     @Override
     public ElectronicBillDTO save(ElectronicBillDTO electronicBillDTO) {
-            List<CiudadDTO> ciudades = findCityByName(electronicBillDTO.getTercero().getCiudadPrv());
-            electronicBillDTO.getTercero().setCiudad(ciudades.get(0).getCod());
-            TerceroDTO tercero = saveTercero(electronicBillDTO.getTercero());
+            List<CiudadDTO> ciudades = findCityByName(electronicBillDTO.getEmpresario().getCiudadPrv());
+            electronicBillDTO.getEmpresario().setCiudad(ciudades.get(0).getCod());
+            EmpresarioDTO empresario = saveEmpresario(electronicBillDTO.getEmpresario());
 
-            saveFactura(electronicBillDTO.getFactura(), tercero);
+            saveFactura(electronicBillDTO.getFactura(), empresario);
 
             return electronicBillDTO;
     }
@@ -120,29 +120,29 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
     }
 
     /**
-     * Metodo que se encarga de llamar el modulo de repositorio para que se pueda guardar tercero
+     * Metodo que se encarga de llamar el modulo de repositorio para que se pueda guardar Empresario
      */
-    private TerceroDTO saveTercero(TerceroDTO tercero) {
-            if (tercero.getNit().isEmpty())
+    private EmpresarioDTO saveEmpresario(EmpresarioDTO empresario) {
+            if (empresario.getNit().isEmpty())
                 throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_003));
-            Tercero terceroTmp = terceroMappers.toEntity(tercero);
-            Optional<Tercero> terceroOld = terceroRepository.findById(tercero.getNit());
-            if(terceroOld.isPresent()) {
-                terceroTmp.setFechaModificacion(new Date());
-                terceroTmp.setFechaRegistroCliente(terceroOld.get().getFechaRegistroCliente());
-                terceroTmp.setFechaIngreso(terceroOld.get().getFechaIngreso());
+            Empresario empresarioTmp = empresarioMappers.toEntity(empresario);
+            Optional<Empresario> empresarioOld = empresarioRepository.findById(empresario.getNit());
+            if(empresarioOld.isPresent()) {
+                empresarioTmp.setFechaModificacion(new Date());
+                empresarioTmp.setFechaRegistroCliente(empresarioOld.get().getFechaRegistroCliente());
+                empresarioTmp.setFechaIngreso(empresarioOld.get().getFechaIngreso());
             } else {
-                terceroTmp.setFechaRegistroCliente(new Date());
-                terceroTmp.setFechaIngreso(new Date());
+                empresarioTmp.setFechaRegistroCliente(new Date());
+                empresarioTmp.setFechaIngreso(new Date());
             }
-            if(terceroTmp.getEmail().isEmpty())
+            if(empresarioTmp.getEmail().isEmpty())
                 throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_004));
-            terceroTmp.setEmailCartera(terceroTmp.getEmail());
-            terceroTmp.setEmailCuentaPorPagar(terceroTmp.getEmail());
-            terceroTmp.setEmailProveedor(terceroTmp.getEmail());
-            terceroTmp.setEmailReseccionFacElec(terceroTmp.getEmail());
-            terceroTmp.setNombre(terceroTmp.getNombre1().concat(" ").concat(terceroTmp.getNombre2()));
-            return terceroMappers.toDTO(terceroRepository.save(terceroTmp));
+            empresarioTmp.setEmailCartera(empresarioTmp.getEmail());
+            empresarioTmp.setEmailCuentaPorPagar(empresarioTmp.getEmail());
+            empresarioTmp.setEmailProveedor(empresarioTmp.getEmail());
+            empresarioTmp.setEmailReseccionFacElec(empresarioTmp.getEmail());
+            empresarioTmp.setNombre(empresarioTmp.getNombre1().concat(" ").concat(empresarioTmp.getNombre2()));
+            return empresarioMappers.toDTO(empresarioRepository.save(empresarioTmp));
     }
 
     /**
@@ -150,9 +150,9 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      * @param factura
      * @return
      */
-    private FacturaDTO saveFactura (FacturaDTO factura, TerceroDTO tercero) {
-        Trade tradeTmp = saveTrade(factura, tercero);
-        saveMvTrade(factura, tercero, tradeTmp);
+    private FacturaDTO saveFactura (FacturaDTO factura, EmpresarioDTO empresario) {
+        Trade tradeTmp = saveTrade(factura, empresario);
+        saveMvTrade(factura, empresario, tradeTmp);
         return null;
     }
 
@@ -160,13 +160,13 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      * Metodo que se encarga de llamar la capa de repositorio donde se maneja el objeto TRADE que es la cabecera
      * del recaudo
      * @param factura Objeto de esta los atributos que necesita el objeto Trade
-     * @param tercero Objeto que representa el usuario de la factura
+     * @param empresario Objeto que representa el usuario de la factura
      */
-    private Trade saveTrade (FacturaDTO factura, TerceroDTO tercero) {
+    private Trade saveTrade (FacturaDTO factura, EmpresarioDTO empresario) {
         Trade tradeTmp = new Trade();
         TradePk tradePkTmp = new TradePk(factura.getNumeroDeFactura(), factura.getOrigen(), factura.getTipoDcto());
         tradeTmp.setId(tradePkTmp);
-        tradeTmp.setNit(terceroMappers.toEntity(tercero));
+        tradeTmp.setNit(empresarioMappers.toEntity(empresario));
         tradeTmp.setBruto(factura.getValorDeLicencia());
         tradeTmp.setCorrelatid(factura.getNumeroDeFactura());
         tradeTmp.setFecha(factura.getFechaFactura());
@@ -185,11 +185,11 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      * Metodo que se encarga de llamar la capa de repositorio donde se maneja el objeto MVTRADE que es el cuerpo
      * del recaudo
      * @param factura Objeto de esta los atributos que necesita el objeto MvTrade
-     * @param tercero Objeto que representa el usuario de la factura
+     * @param empresario Objeto que representa el usuario de la factura
      */
-    private MvTrade saveMvTrade(FacturaDTO factura, TerceroDTO tercero, Trade trade) {
+    private MvTrade saveMvTrade(FacturaDTO factura, EmpresarioDTO empresario, Trade trade) {
         MvTrade mvTradeTmp = new MvTrade();
-        mvTradeTmp.setNit(terceroMappers.toEntity(tercero));
+        mvTradeTmp.setNit(empresarioMappers.toEntity(empresario));
         mvTradeTmp.setNombre(factura.getNombreDelEvento());
         mvTradeTmp.setNota(factura.getNombreDelEvento());
         mvTradeTmp.setDetalle(factura.getEstablecimiento());

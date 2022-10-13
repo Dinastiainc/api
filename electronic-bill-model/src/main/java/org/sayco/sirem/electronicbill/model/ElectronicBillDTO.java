@@ -12,9 +12,9 @@ public class ElectronicBillDTO {
 
 
     /**
-     * Información de tercero
+     * Información de Empresario
      */
-    private TerceroDTO tercero;
+    private EmpresarioDTO empresario;
 
     /**
      * Información de la factura

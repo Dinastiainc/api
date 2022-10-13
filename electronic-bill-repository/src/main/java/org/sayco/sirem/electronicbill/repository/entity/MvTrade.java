@@ -32,7 +32,7 @@ public class MvTrade {
      */
     @ManyToOne
     @JoinColumn(name = "NIT", referencedColumnName = "NIT")
-    private Tercero nit;
+    private Empresario nit;
 
     /**
      * campo que representa el nombre del evento

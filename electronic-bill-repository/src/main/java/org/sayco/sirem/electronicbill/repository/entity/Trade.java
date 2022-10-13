@@ -31,7 +31,7 @@ public class Trade {
      */
     @ManyToOne
     @JoinColumn(name = "NIT", referencedColumnName = "NIT")
-    private Tercero nit;
+    private Empresario nit;
 
     /**
      * campo que representa el valor de la liencia

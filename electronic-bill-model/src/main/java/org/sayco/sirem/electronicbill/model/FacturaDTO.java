@@ -11,7 +11,7 @@ import java.util.Date;
 public class FacturaDTO {
 
     /**
-     * Número de identificación de terceros
+     * Número de identificación de Empresarios
      */
     private String nit;
 

@@ -1,6 +1,6 @@
 package org.sayco.sirem.electronicbill.repository;
 
-import org.sayco.sirem.electronicbill.repository.entity.Tercero;
+import org.sayco.sirem.electronicbill.repository.entity.Empresario;
 import org.sayco.sirem.electronicbill.repository.entity.Trade;
 import org.sayco.sirem.electronicbill.repository.entity.TradePk;
 import org.springframework.data.repository.CrudRepository;

@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * Clase que esta relacionada con la tabla CIUDAD que pertenece terceros (MTPROCLI)
+ * Clase que esta relacionada con la tabla CIUDAD que pertenece Empresarios (MTPROCLI)
  */
 @NoArgsConstructor
 @Entity
