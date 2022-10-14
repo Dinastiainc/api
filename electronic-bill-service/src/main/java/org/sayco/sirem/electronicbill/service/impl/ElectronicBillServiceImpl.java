@@ -10,6 +10,7 @@ import org.sayco.sirem.electronicbill.service.exception.ServiceException;
 import org.sayco.sirem.electronicbill.service.impl.mappers.CiudadMappers;
 import org.sayco.sirem.electronicbill.service.impl.mappers.EmpresarioMappers;
 import org.sayco.sirem.electronicbill.service.impl.mappers.RecaudadorMappers;
+import org.sayco.sirem.electronicbill.service.utils.Constantes;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
@@ -193,7 +194,7 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
         tradeTmp.setFecha2(electronicBillDTO.getFactura().getFechaPago());
         tradeTmp.setFecha3(electronicBillDTO.getFactura().getFechaPago());
         tradeTmp.setCodCc(electronicBillDTO.getRecaudador().getCentroDeCostos());
-
+        tradeTmp.setMeVersion(Constantes.MEVERSION);
         return tradeRepository.save(tradeTmp);
     }
 
@@ -216,9 +217,11 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
         mvTradeTmp.setFeCent(electronicBillDTO.getFactura().getFechaFactura());
         mvTradeTmp.setFecha(electronicBillDTO.getFactura().getFechaFactura());
         mvTradeTmp.setFecIng(electronicBillDTO.getFactura().getFechaFactura());
-        mvTradeTmp.setProducto(electronicBillDTO.getFactura().getProducto());
+        mvTradeTmp.setProducto(electronicBillDTO.getFactura().getCodigoDeIntegracion());
         mvTradeTmp.setCodCc(electronicBillDTO.getRecaudador().getCentroDeCostos());
         mvTradeTmp.setTrade(trade);
+        mvTradeTmp.setBodega(Constantes.BODEGA);
+        mvTradeTmp.setOrigen(Constantes.ORIGEN);
         return mvTradeRepository.save(mvTradeTmp);
     }
 

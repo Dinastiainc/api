@@ -68,5 +68,5 @@ public class FacturaDTO {
     /**
      * Campo que representa el Id de la tabla MTMERCIA
      */
-    private String producto;
+    private String codigoDeIntegracion ;
 }

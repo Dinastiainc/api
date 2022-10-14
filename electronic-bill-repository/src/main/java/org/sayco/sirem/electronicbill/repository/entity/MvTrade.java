@@ -95,10 +95,10 @@ public class MvTrade {
     private Date fecIng;
 
     /**
-     * Campo que representa la fecha de factura
+     * Campo que representa el codigo de la integracion y representa la tabla MTMERCIA
      */
     @Column(name = "PRODUCTO")
-    private String producto;
+    private String codigoDeIntegracion;
 
     /**
      * Campo que representa centro de costos
@@ -113,5 +113,12 @@ public class MvTrade {
             @JoinColumn(name = "TIPODCTO", referencedColumnName = "TIPODCTO")
     })
     private Trade trade;
+
+    @Column(name = "BOSAYCO")
+    private String bodega;
+
+    @Column(name = "FAC")
+    private String origen;
+
 
 }
