@@ -99,8 +99,11 @@ public class Trade {
     @Column(name = "CODCC")
     private String codCc;
 
-    @Column(name = "MEVERSION ")
+    @Column(name = "MEVERSION")
     private String meVersion;
+
+    @Column(name = "CODIGOCTA")
+    private String codigoDeIntegracion;
 
 
 }

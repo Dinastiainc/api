@@ -114,11 +114,7 @@ public class MvTrade {
     })
     private Trade trade;
 
-    @Column(name = "BOSAYCO")
+    @Column(name = "BODEGA")
     private String bodega;
-
-    @Column(name = "FAC")
-    private String origen;
-
 
 }

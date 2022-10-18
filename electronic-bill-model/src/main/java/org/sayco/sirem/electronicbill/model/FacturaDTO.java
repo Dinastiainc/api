@@ -55,10 +55,6 @@ public class FacturaDTO {
      */
     private Date fechaPago;
 
-    /**
-     * Campo que representa el origen
-     */
-    private String origen;
 
     /**
      * Campo que representa el tipo de documento

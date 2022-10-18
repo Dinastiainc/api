@@ -112,14 +112,15 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
     @Transactional
     @Override
     public ElectronicBillDTO save(ElectronicBillDTO electronicBillDTO) {
-            List<CiudadDTO> ciudades = findCityByName(electronicBillDTO.getEmpresario().getCiudadPrv());
-            electronicBillDTO.getEmpresario().setCiudad(ciudades.get(0).getCod());
-            EmpresarioDTO empresario = saveEmpresario(electronicBillDTO.getEmpresario());
+        List<CiudadDTO> ciudades = findCityByName(electronicBillDTO.getEmpresario().getCiudadPrv());
+        electronicBillDTO.getEmpresario().setCiudad(ciudades.get(0).getCod());
+        EmpresarioDTO empresario = saveEmpresario(electronicBillDTO.getEmpresario());
 
-            saveFactura(electronicBillDTO);
+        saveFactura(electronicBillDTO);
 
-            return electronicBillDTO;
+        return electronicBillDTO;
     }
+
 
     /**
      * Metodo que llama al repositorio para que le devuelva una lista de ciudades que se busca por el nombre
@@ -166,9 +167,10 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      * @return
      */
     @Transactional
-    public FacturaDTO saveFactura (ElectronicBillDTO electronicBillDTO) {
+    public FacturaDTO saveFactura(ElectronicBillDTO electronicBillDTO) {
         Trade tradeTmp = saveTrade(electronicBillDTO);
-        saveRecaudador(electronicBillDTO.getRecaudador());
+        if (electronicBillDTO.getRecaudador() != null)
+            saveRecaudador(electronicBillDTO.getRecaudador());
         saveMvTrade(electronicBillDTO, tradeTmp);
         return null;
     }
@@ -180,7 +182,7 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      */
     private Trade saveTrade (ElectronicBillDTO electronicBillDTO) {
         Trade tradeTmp = new Trade();
-        TradePk tradePkTmp = new TradePk(electronicBillDTO.getFactura().getNumeroDeFactura(), electronicBillDTO.getFactura().getOrigen(), electronicBillDTO.getFactura().getTipoDcto());
+        TradePk tradePkTmp = new TradePk(electronicBillDTO.getFactura().getNumeroDeFactura(), Constantes.ORIGEN, electronicBillDTO.getFactura().getTipoDcto());
         tradeTmp.setId(tradePkTmp);
         tradeTmp.setNit(empresarioMappers.toEntity(electronicBillDTO.getEmpresario()));
         tradeTmp.setBruto(electronicBillDTO.getFactura().getValorDeLicencia());
@@ -193,8 +195,9 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
         tradeTmp.setFecha1(electronicBillDTO.getFactura().getFechaPago());
         tradeTmp.setFecha2(electronicBillDTO.getFactura().getFechaPago());
         tradeTmp.setFecha3(electronicBillDTO.getFactura().getFechaPago());
-        tradeTmp.setCodCc(electronicBillDTO.getRecaudador().getCentroDeCostos());
+        tradeTmp.setCodCc(electronicBillDTO.getRecaudador() != null ? electronicBillDTO.getRecaudador().getCentroDeCostos() : "0");
         tradeTmp.setMeVersion(Constantes.MEVERSION);
+        tradeTmp.setCodigoDeIntegracion(electronicBillDTO.getFactura().getCodigoDeIntegracion());
         return tradeRepository.save(tradeTmp);
     }
 
@@ -217,11 +220,10 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
         mvTradeTmp.setFeCent(electronicBillDTO.getFactura().getFechaFactura());
         mvTradeTmp.setFecha(electronicBillDTO.getFactura().getFechaFactura());
         mvTradeTmp.setFecIng(electronicBillDTO.getFactura().getFechaFactura());
-        mvTradeTmp.setProducto(electronicBillDTO.getFactura().getCodigoDeIntegracion());
-        mvTradeTmp.setCodCc(electronicBillDTO.getRecaudador().getCentroDeCostos());
+        mvTradeTmp.setCodigoDeIntegracion(electronicBillDTO.getFactura().getCodigoDeIntegracion());
+        mvTradeTmp.setCodCc(electronicBillDTO.getRecaudador() != null ? electronicBillDTO.getRecaudador().getCentroDeCostos() : "0");
         mvTradeTmp.setTrade(trade);
         mvTradeTmp.setBodega(Constantes.BODEGA);
-        mvTradeTmp.setOrigen(Constantes.ORIGEN);
         return mvTradeRepository.save(mvTradeTmp);
     }
 
