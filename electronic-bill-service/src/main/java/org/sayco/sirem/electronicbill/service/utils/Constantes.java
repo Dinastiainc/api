@@ -10,5 +10,6 @@ public class Constantes {
     //public final static String ORIGEN = "FAC";
     public final static String MEVERSION = "DIAN_00";
     public final static String TIPOPER = "NN";
+    public final static int CANTIDAD = 1;
 
 }

@@ -11,6 +11,7 @@ import org.sayco.sirem.electronicbill.service.impl.mappers.CiudadMappers;
 import org.sayco.sirem.electronicbill.service.impl.mappers.EmpresarioMappers;
 import org.sayco.sirem.electronicbill.service.impl.mappers.RecaudadorMappers;
 import org.sayco.sirem.electronicbill.service.utils.Constantes;
+import org.sayco.sirem.electronicbill.service.utils.DateUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
@@ -89,6 +90,12 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
     private final VendenRepository vendenRepository;
 
     /**
+     * Variable global que se encarga de inyectar el repository MtMerciaRepository para interactuar con el
+     * modulo repository con ayuda de constructor
+     */
+    private final MtMerciaRepository mtMerciaRepository;
+
+    /**
      * El constructor donde hace el proceso de inyectar las variable globales de de esta clase
      * @param empresarioRepository
      * @param empresarioMappers
@@ -101,12 +108,13 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      * @param recaudadorMappers
      * @param cuentasRepository
      * @param vendenRepository
+     * @param mtMerciaRepository
      */
     public ElectronicBillServiceImpl(EmpresarioRepository empresarioRepository, EmpresarioMappers empresarioMappers,
                                      CiudadMappers ciudadMappers, CiudadRepository ciudadRepository,
                                      I18nService i18nService, TradeRepository tradeRepository,
                                      MvTradeRepository mvTradeRepository, RecaudadorRepository recaudadorRepository,
-                                     RecaudadorMappers recaudadorMappers, CuentasRepository cuentasRepository, VendenRepository vendenRepository) {
+                                     RecaudadorMappers recaudadorMappers, CuentasRepository cuentasRepository, VendenRepository vendenRepository, MtMerciaRepository mtMerciaRepository) {
         this.empresarioRepository = empresarioRepository;
         this.empresarioMappers = empresarioMappers;
         this.ciudadMappers = ciudadMappers;
@@ -118,6 +126,7 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
         this.recaudadorMappers = recaudadorMappers;
         this.cuentasRepository = cuentasRepository;
         this.vendenRepository = vendenRepository;
+        this.mtMerciaRepository = mtMerciaRepository;
     }
 
     /**
@@ -262,11 +271,13 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
                 });
         mvTradeTmp.setCodVend(vendenTmp.getRecaudador());
         mvTradeTmp.setTipo(electronicBillDTO.getFactura().getTipo());
-
-        //hixrael PENDIENTE: Este valor Producto de donde viene
-        mvTradeTmp.setProducto("0");
-
-
+        mvTradeTmp.setCantidad(Constantes.CANTIDAD);
+        mvTradeTmp.setNotados(DateUtil.getDateToString(electronicBillDTO.getFactura().getFechaFactura()));
+        MtMercia mtMerciaTmp = mtMerciaRepository.findById(electronicBillDTO.getFactura().getCuentaContable())
+                .orElseThrow(() -> {
+                    throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_007, electronicBillDTO.getFactura().getCuentaContable()));
+                });
+        mvTradeTmp.setCuentaContable(mtMerciaTmp.getCodigo());
         return mvTradeRepository.save(mvTradeTmp);
     }
 
