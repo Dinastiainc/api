@@ -62,12 +62,43 @@ public class FacturaDTO {
     private String tipoDcto;
 
     /**
-     * Campo que representa el Id de la tabla MTMERCIA
+     *
      */
-    private String codigoDeIntegracion ;
+    private BigDecimal codigoDeIntegracion ;
 
     /**
      * Campo que representa el origen y viene quemado desde sirem con el valor FAC
      */
     private String origen ;
+
+    /**
+     * Campo que representa el codigo del vendedor este campos se buscara en la tabla VENDEN si existe se guardará
+     * en las tablas MVTRADE y TRADE si el proceso no tiene ningun inconveniente
+     */
+    private String recaudador;
+
+    /**
+     * Nombre de la ciudad
+     */
+    private String ciudad;
+
+    /**
+     *
+     */
+    private String cuentaContable ;
+
+    /**
+     *
+     */
+    private String modalidadDeUso ;
+
+    /**
+     * Campo que representa el usuario
+     */
+    private String usuario;
+
+    /**
+     * Campo que representa el tipo
+     */
+    private String tipo;
 }

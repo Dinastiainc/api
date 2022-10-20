@@ -98,7 +98,7 @@ public class MvTrade {
      * Campo que representa el codigo de la integracion y representa la tabla MTMERCIA
      */
     @Column(name = "PRODUCTO")
-    private String codigoDeIntegracion;
+    private String producto;
 
     /**
      * Campo que representa centro de costos
@@ -116,5 +116,17 @@ public class MvTrade {
 
     @Column(name = "BODEGA")
     private String bodega;
+
+    /**
+     * Campo que representa el codigo del vendedor
+     */
+    @Column(name = "VENDEDOR")
+    private String codVend;
+
+    /**
+     *  Campo que representa la nota
+     */
+    @Column(name = "NOTA")
+    private String tipo;
 
 }

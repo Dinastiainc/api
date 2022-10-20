@@ -103,5 +103,45 @@ public class Trade {
     private String meVersion;
 
     @Column(name = "CODIGOCTA")
-    private String codigoDeIntegracion;
+    private String cuentaContable;
+
+    @Column(name = "CODINT")
+    private BigDecimal codigoDeIntegracion;
+
+    /**
+     * Campo que representa el codigo del vendedor
+     */
+    @Column(name = "CODVEN")
+    private String recaudador;
+
+    /**
+     * Campo que represnta la ciudad
+     */
+    @Column(name = "CIUDADCLI")
+    private String ciudadCli;
+
+    /**
+     *  Campo que representa la nota
+     */
+    @Column(name = "NOTA")
+    private String modalidadDeUso;
+
+    /**
+     *  Campo que representa el usuario
+     */
+    @Column(name = "PASSWORDIN")
+    private String usuario;
+
+    /**
+     *  Campo que representa el usuario
+     */
+    @Column(name = "DIR")
+    private String direccionEmpresario;
+
+    /**
+     *  Campo que representa
+     */
+    @Column(name = "TIPOPER")
+    private String tipoPer;
+
 }

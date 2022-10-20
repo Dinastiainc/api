@@ -81,6 +81,13 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      */
     private final CuentasRepository cuentasRepository;
 
+
+    /**
+     * Variable global que se encarga de inyectar el repository VendenRepository para interactuar con el
+     * modulo repository con ayuda de constructor
+     */
+    private final VendenRepository vendenRepository;
+
     /**
      * El constructor donde hace el proceso de inyectar las variable globales de de esta clase
      * @param empresarioRepository
@@ -93,12 +100,13 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      * @param recaudadorRepository
      * @param recaudadorMappers
      * @param cuentasRepository
+     * @param vendenRepository
      */
     public ElectronicBillServiceImpl(EmpresarioRepository empresarioRepository, EmpresarioMappers empresarioMappers,
                                      CiudadMappers ciudadMappers, CiudadRepository ciudadRepository,
                                      I18nService i18nService, TradeRepository tradeRepository,
                                      MvTradeRepository mvTradeRepository, RecaudadorRepository recaudadorRepository,
-                                     RecaudadorMappers recaudadorMappers, CuentasRepository cuentasRepository) {
+                                     RecaudadorMappers recaudadorMappers, CuentasRepository cuentasRepository, VendenRepository vendenRepository) {
         this.empresarioRepository = empresarioRepository;
         this.empresarioMappers = empresarioMappers;
         this.ciudadMappers = ciudadMappers;
@@ -109,6 +117,7 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
         this.recaudadorRepository = recaudadorRepository;
         this.recaudadorMappers = recaudadorMappers;
         this.cuentasRepository = cuentasRepository;
+        this.vendenRepository = vendenRepository;
     }
 
     /**
@@ -188,7 +197,7 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      * del recaudo
      * @param electronicBillDTO Objeto de esta los atributos que necesita el objeto Trade
      */
-    private Trade saveTrade (ElectronicBillDTO electronicBillDTO) {
+    private Trade saveTrade(ElectronicBillDTO electronicBillDTO) {
         Trade tradeTmp = new Trade();
         TradePk tradePkTmp = new TradePk(electronicBillDTO.getFactura().getNumeroDeFactura(), electronicBillDTO.getFactura().getOrigen(), electronicBillDTO.getFactura().getTipoDcto());
         tradeTmp.setId(tradePkTmp);
@@ -205,11 +214,22 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
         tradeTmp.setFecha3(electronicBillDTO.getFactura().getFechaPago());
         tradeTmp.setCodCc(electronicBillDTO.getRecaudador() != null ? electronicBillDTO.getRecaudador().getCentroDeCostos() : "0");
         tradeTmp.setMeVersion(Constantes.MEVERSION);
-        Cuentas cuentasTmp = cuentasRepository.findById(electronicBillDTO.getFactura().getCodigoDeIntegracion())
+        Cuentas cuentasTmp = cuentasRepository.findById(electronicBillDTO.getFactura().getCuentaContable())
                 .orElseGet(() -> {
-                    throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_005, electronicBillDTO.getFactura().getCodigoDeIntegracion()));
+                    throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_005, electronicBillDTO.getFactura().getCuentaContable()));
                 });
-        tradeTmp.setCodigoDeIntegracion(cuentasTmp.getCodigoCuenta());
+        tradeTmp.setCuentaContable(cuentasTmp.getCodigoCuenta());
+        Venden vendenTmp = vendenRepository.findById(electronicBillDTO.getFactura().getRecaudador())
+                .orElseGet(() -> {
+                    throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_006, electronicBillDTO.getFactura().getRecaudador()));
+                });
+        tradeTmp.setRecaudador(vendenTmp.getRecaudador());
+        tradeTmp.setCiudadCli(electronicBillDTO.getFactura().getCiudad());
+        tradeTmp.setCodigoDeIntegracion(electronicBillDTO.getFactura().getCodigoDeIntegracion());
+        tradeTmp.setModalidadDeUso(electronicBillDTO.getFactura().getModalidadDeUso());
+        tradeTmp.setUsuario(electronicBillDTO.getFactura().getUsuario());
+        tradeTmp.setDireccionEmpresario(electronicBillDTO.getEmpresario().getDireccion());
+        tradeTmp.setTipoPer(Constantes.TIPOPER);
 
         return tradeRepository.save(tradeTmp);
     }
@@ -233,10 +253,20 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
         mvTradeTmp.setFeCent(electronicBillDTO.getFactura().getFechaFactura());
         mvTradeTmp.setFecha(electronicBillDTO.getFactura().getFechaFactura());
         mvTradeTmp.setFecIng(electronicBillDTO.getFactura().getFechaFactura());
-        mvTradeTmp.setCodigoDeIntegracion(electronicBillDTO.getFactura().getCodigoDeIntegracion());
         mvTradeTmp.setCodCc(electronicBillDTO.getRecaudador() != null ? electronicBillDTO.getRecaudador().getCentroDeCostos() : "0");
         mvTradeTmp.setTrade(trade);
         mvTradeTmp.setBodega(Constantes.BODEGA);
+        Venden vendenTmp = vendenRepository.findById(electronicBillDTO.getFactura().getRecaudador())
+                .orElseGet(() -> {
+                    throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_006, electronicBillDTO.getFactura().getRecaudador()));
+                });
+        mvTradeTmp.setCodVend(vendenTmp.getRecaudador());
+        mvTradeTmp.setTipo(electronicBillDTO.getFactura().getTipo());
+
+        //hixrael PENDIENTE: Este valor Producto de donde viene
+        mvTradeTmp.setProducto("0");
+
+
         return mvTradeRepository.save(mvTradeTmp);
     }
 
