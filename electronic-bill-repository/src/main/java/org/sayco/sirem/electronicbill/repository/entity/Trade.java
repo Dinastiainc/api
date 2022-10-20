@@ -104,6 +104,4 @@ public class Trade {
 
     @Column(name = "CODIGOCTA")
     private String codigoDeIntegracion;
-
-
 }

@@ -57,7 +57,7 @@ public class FacturaDTO {
 
 
     /**
-     * Campo que representa el tipo de documento
+     * Campo que representa el tipo de documento y viene quemado desde sirem con el valor FA
      */
     private String tipoDcto;
 
@@ -65,4 +65,9 @@ public class FacturaDTO {
      * Campo que representa el Id de la tabla MTMERCIA
      */
     private String codigoDeIntegracion ;
+
+    /**
+     * Campo que representa el origen y viene quemado desde sirem con el valor FAC
+     */
+    private String origen ;
 }
