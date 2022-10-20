@@ -95,12 +95,6 @@ public class MvTrade {
     private Date fecIng;
 
     /**
-     * Campo que representa el codigo de la integracion y representa la tabla MTMERCIA
-     */
-    @Column(name = "PRODUCTO")
-    private String cuentaContable;
-
-    /**
      * Campo que representa centro de costos
      */
     @Column(name = "CODCC")
@@ -121,7 +115,7 @@ public class MvTrade {
      * Campo que representa el codigo del vendedor
      */
     @Column(name = "VENDEDOR")
-    private String codVend;
+    private String codRecaudador;
 
     /**
      *  Campo que representa la nota
@@ -140,5 +134,20 @@ public class MvTrade {
      */
     @Column(name = "NOTADOS")
     private String notados;
+
+    /**
+     * Campo que representa el codigo de la integracion y representa la tabla MTMERCIA
+     */
+    @Column(name = "PRODUCTO")
+    private String producto;
+
+    @Column(name = "CODIGOCTA")
+    private String codigoCta;
+
+    /**
+     *  Campo que representa el usuario
+     */
+    @Column(name = "PASSWORDIN")
+    private String usuario;
 
 }

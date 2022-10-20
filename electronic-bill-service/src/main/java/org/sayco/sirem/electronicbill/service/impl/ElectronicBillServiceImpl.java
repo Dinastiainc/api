@@ -227,12 +227,12 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
                 .orElseGet(() -> {
                     throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_005, electronicBillDTO.getFactura().getCuentaContable()));
                 });
-        tradeTmp.setCuentaContable(cuentasTmp.getCodigoCuenta());
+        tradeTmp.setCodigoCta(cuentasTmp.getCodigoCuenta());
         Venden vendenTmp = vendenRepository.findById(electronicBillDTO.getFactura().getRecaudador())
                 .orElseGet(() -> {
                     throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_006, electronicBillDTO.getFactura().getRecaudador()));
                 });
-        tradeTmp.setRecaudador(vendenTmp.getRecaudador());
+        tradeTmp.setCodRecaudador(vendenTmp.getRecaudador());
         tradeTmp.setCiudadCli(electronicBillDTO.getFactura().getCiudad());
         tradeTmp.setCodigoDeIntegracion(electronicBillDTO.getFactura().getCodigoDeIntegracion());
         tradeTmp.setModalidadDeUso(electronicBillDTO.getFactura().getModalidadDeUso());
@@ -269,7 +269,7 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
                 .orElseGet(() -> {
                     throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_006, electronicBillDTO.getFactura().getRecaudador()));
                 });
-        mvTradeTmp.setCodVend(vendenTmp.getRecaudador());
+        mvTradeTmp.setCodRecaudador(vendenTmp.getRecaudador());
         mvTradeTmp.setTipo(electronicBillDTO.getFactura().getTipo());
         mvTradeTmp.setCantidad(Constantes.CANTIDAD);
         mvTradeTmp.setNotados(DateUtil.getDateToString(electronicBillDTO.getFactura().getFechaFactura()));
@@ -277,7 +277,13 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
                 .orElseThrow(() -> {
                     throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_007, electronicBillDTO.getFactura().getCuentaContable()));
                 });
-        mvTradeTmp.setCuentaContable(mtMerciaTmp.getCodigo());
+        mvTradeTmp.setProducto(mtMerciaTmp.getCodigo());
+        Cuentas cuentasTmp = cuentasRepository.findById(electronicBillDTO.getFactura().getCuentaContable())
+                .orElseGet(() -> {
+                    throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_005, electronicBillDTO.getFactura().getCuentaContable()));
+                });
+        mvTradeTmp.setCodigoCta(cuentasTmp.getCodigoCuenta());
+        mvTradeTmp.setUsuario(electronicBillDTO.getFactura().getUsuario());
         return mvTradeRepository.save(mvTradeTmp);
     }
 

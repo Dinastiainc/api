@@ -12,7 +12,7 @@ public class DateUtil {
     /**
      * variable global estatica que tiene un formato de fecha yyyy-MM-dd
      */
-    public static final String FORMAT = "yyyyMMdd";
+    public static final String FORMAT = "dd/MM/yyy";
 
     /**
      * Este metodo es el encargado de convertir el dato tipo Date con el formato 'yyyy-MM-dd' en tipo de dato String

@@ -103,7 +103,7 @@ public class Trade {
     private String meVersion;
 
     @Column(name = "CODIGOCTA")
-    private String cuentaContable;
+    private String codigoCta;
 
     @Column(name = "CODINT")
     private BigDecimal codigoDeIntegracion;
@@ -112,7 +112,7 @@ public class Trade {
      * Campo que representa el codigo del vendedor
      */
     @Column(name = "CODVEN")
-    private String recaudador;
+    private String codRecaudador;
 
     /**
      * Campo que represnta la ciudad
