@@ -177,15 +177,16 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
                 empresarioTmp.setFechaRegistroCliente(new Date());
                 empresarioTmp.setFechaIngreso(new Date());
             }
-            if(empresarioTmp.getEmail().isEmpty())
+            if(empresarioTmp.getEmail() == null)
                 throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_004));
             empresarioTmp.setEmailCartera(empresarioTmp.getEmail());
             empresarioTmp.setEmailCuentaPorPagar(empresarioTmp.getEmail());
             empresarioTmp.setEmailProveedor(empresarioTmp.getEmail());
             empresarioTmp.setEmailReseccionFacElec(empresarioTmp.getEmail());
-            empresarioTmp.setNombre(empresarioTmp.getNombre1().concat(" ").concat(empresarioTmp.getNombre2()));
+            empresarioTmp.setNombre(empresarioTmp.getNombre());
             return empresarioMappers.toDTO(empresarioRepository.save(empresarioTmp));
     }
+
 
     /**
      * Este metodo es el encargado de guardar la factura
