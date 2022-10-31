@@ -165,10 +165,11 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      * Metodo que se encarga de llamar el modulo de repositorio para que se pueda guardar Empresario
      */
     private EmpresarioDTO saveEmpresario(EmpresarioDTO empresario) {
-            if (empresario.getNit().isEmpty())
+            if (empresario.getIdentificacion().isEmpty())
                 throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_003));
             Empresario empresarioTmp = empresarioMappers.toEntity(empresario);
-            Optional<Empresario> empresarioOld = empresarioRepository.findById(empresario.getNit());
+            Optional<Empresario> empresarioOld = empresarioRepository.findById(empresario.getIdentificacion());
+            empresarioTmp.setTipoIdentificacion(empresario.getTipoIdentificacion());
             if(empresarioOld.isPresent()) {
                 empresarioTmp.setFechaModificacion(new Date());
                 empresarioTmp.setFechaRegistroCliente(empresarioOld.get().getFechaRegistroCliente());

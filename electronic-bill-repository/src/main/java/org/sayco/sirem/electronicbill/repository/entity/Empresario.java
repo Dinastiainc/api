@@ -21,7 +21,7 @@ public class Empresario {
      */
     @Id
     @Column(name = "NIT")
-    private String nit;
+    private String identificacion;
 
     /**
      * Nombre completo del Empresario
@@ -137,4 +137,10 @@ public class Empresario {
      */
     @Column(name = "FECHAING")
     private Date fechaIngreso;
+
+    /**
+     * Tipo de identificacion con que se va registrar el empresario
+     */
+    @Column(name = "IDENTIFICA")
+    private String tipoIdentificacion;
 }

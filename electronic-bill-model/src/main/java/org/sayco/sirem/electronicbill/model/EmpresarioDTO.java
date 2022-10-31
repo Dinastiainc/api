@@ -12,7 +12,7 @@ public class EmpresarioDTO {
     /**
      * Número de identificación de Empresarios
      */
-    private String nit;
+    private String identificacion;
 
     /**
      * Nombre completo del Empresario
@@ -106,6 +106,11 @@ public class EmpresarioDTO {
 
 
     private Date fechaIngreso;
+
+    /**
+     * Tipo de identificacion con que se va registrar el empresario
+     */
+    private String tipoIdentificacion;
 
 
 }
