@@ -241,6 +241,15 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
         tradeTmp.setUsuario(electronicBillDTO.getFactura().getUsuario());
         tradeTmp.setDireccionEmpresario(electronicBillDTO.getEmpresario().getDireccion());
         tradeTmp.setTipoPer(Constantes.TIPOPER);
+        tradeTmp.setFecCaja(DateUtil.getDateFromString(Constantes.DEFAULT_DATE));
+        tradeTmp.setFhAutoriza(DateUtil.getDateFromString(Constantes.DEFAULT_DATE));
+        tradeTmp.setFisrl(DateUtil.getDateFromString(Constantes.DEFAULT_DATE));
+        tradeTmp.setFiva(DateUtil.getDateFromString(Constantes.DEFAULT_DATE));
+        tradeTmp.setFLlamada(DateUtil.getDateFromString(Constantes.DEFAULT_DATE));
+        tradeTmp.setFRecaudo(DateUtil.getDateFromString(Constantes.DEFAULT_DATE));
+        tradeTmp.setConsFecha(DateUtil.getDateFromString(Constantes.DEFAULT_DATE));
+        tradeTmp.setMeFechat(DateUtil.getDateFromString(Constantes.DEFAULT_DATE));
+        tradeTmp.setFechaNif(electronicBillDTO.getFactura().getFechaFactura());
 
         return tradeRepository.save(tradeTmp);
     }

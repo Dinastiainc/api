@@ -1,6 +1,7 @@
 package org.sayco.sirem.electronicbill.service.utils;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -57,4 +58,26 @@ public class DateUtil {
     public static String format(DateFormat dateFormat, Date date) {
         return dateFormat.format(date);
     }
+
+
+    /**
+     * Este metodo se encarga de convertir el parametro  de entrada date con ayuda del parametro de entrada dateFormat
+     * y convertirlo en tipo de dato String para ser retornado
+     * @param date
+     * @param date
+     * @return String
+     */
+    public static Date getDateFromString(String date) {
+
+        DateFormat dateFormat = new SimpleDateFormat(FORMAT);
+        Date dateReal = null;
+        try {
+            dateReal =  dateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return dateReal;
+    }
+
+
 }

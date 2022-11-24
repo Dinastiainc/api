@@ -144,4 +144,58 @@ public class Trade {
     @Column(name = "TIPOPER")
     private String tipoPer;
 
+    /**
+     *  Campo que representa ...
+     */
+    @Column(name = "FECCAJA")
+    private Date fecCaja;
+
+    /**
+     *  Campo que representa ...
+     */
+    @Column(name = "FHAUTORIZA")
+    private Date fhAutoriza;
+
+    /**
+     *  Campo que representa ...
+     */
+    @Column(name = "FISRL")
+    private Date fisrl;
+
+    /**
+     *  Campo que representa ...
+     */
+    @Column(name = "FIVA")
+    private Date fiva;
+
+    /**
+     *  Campo que representa ...
+     */
+    @Column(name = "FLLAMADA")
+    private Date fLlamada;
+
+    /**
+     *  Campo que representa ...
+     */
+    @Column(name = "FRECAUDO")
+    private Date fRecaudo;
+
+    /**
+     *  Campo que representa ...
+     */
+    @Column(name = "CONSFECHA")
+    private Date consFecha;
+
+    /**
+     *  Campo que representa ...
+     */
+    @Column(name = "MEFECHAT")
+    private Date meFechat;
+
+    /**
+     *  Campo que representa ...
+     */
+    @Column(name = "FECHANIF")
+    private Date fechaNif;
+
 }
