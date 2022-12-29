@@ -4,8 +4,6 @@ import java.util.Locale;
 
 public interface I18nService {
     enum MessageCode{
-        ERR_001,
-        ERR_002,
         ERR_003,
         ERR_004,
         ERR_005,

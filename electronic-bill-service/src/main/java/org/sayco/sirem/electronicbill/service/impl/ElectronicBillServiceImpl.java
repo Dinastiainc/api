@@ -138,8 +138,8 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
     @Transactional
     @Override
     public ElectronicBillDTO save(ElectronicBillDTO electronicBillDTO) {
-        List<CiudadDTO> ciudades = findCityByName(electronicBillDTO.getEmpresario().getCiudadPrv());
-        electronicBillDTO.getEmpresario().setCiudad(ciudades.get(0).getCod());
+        CiudadDTO ciudad = findCityByName(electronicBillDTO.getEmpresario().getCiudadPrv());
+        electronicBillDTO.getEmpresario().setCiudad(ciudad ? ciudad.getCod() : "0");
         EmpresarioDTO empresario = saveEmpresario(electronicBillDTO.getEmpresario());
 
         saveFactura(electronicBillDTO);
@@ -152,13 +152,15 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      * Metodo que llama al repositorio para que le devuelva una lista de ciudades que se busca por el nombre
      * @return
      */
-    private List<CiudadDTO> findCityByName (String nombreCiudad) {
-            if(nombreCiudad.isEmpty())
-                throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_001));
-            List<Ciudad> ciudades = ciudadRepository.findByNombre(nombreCiudad);
-            if (ciudades.isEmpty())
-                throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_002, nombreCiudad));
-            return ciudadMappers.toListDTO(ciudades);
+    private CiudadDTO findCityByName (String nombreCiudad) {
+        if(nombreCiudad.isEmpty())
+            return null;
+        
+        List<Ciudad> ciudades = ciudadRepository.findByNombre(nombreCiudad);
+        if (ciudades.isEmpty())
+            return null;
+
+        return ciudadMappers.toDTO(ciudades.get(0));
     }
 
     /**
