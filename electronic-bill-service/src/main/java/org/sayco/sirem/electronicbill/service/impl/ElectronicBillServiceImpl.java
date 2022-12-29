@@ -139,7 +139,7 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
     @Override
     public ElectronicBillDTO save(ElectronicBillDTO electronicBillDTO) {
         CiudadDTO ciudad = findCityByName(electronicBillDTO.getEmpresario().getCiudadPrv());
-        electronicBillDTO.getEmpresario().setCiudad(ciudad ? ciudad.getCod() : "0");
+        electronicBillDTO.getEmpresario().setCiudad(ciudad != null ? ciudad.getCod() : "0");
         EmpresarioDTO empresario = saveEmpresario(electronicBillDTO.getEmpresario());
 
         saveFactura(electronicBillDTO);
