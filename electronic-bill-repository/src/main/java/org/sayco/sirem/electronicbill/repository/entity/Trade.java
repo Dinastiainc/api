@@ -198,4 +198,8 @@ public class Trade {
     @Column(name = "FECHANIF")
     private Date fechaNif;
 
+    /** es necesario hacer un ajuste en el campo  CAJAREG, este campo debe llegar TRADE con valor vacío o Null
+     * Julian Andres Miranda - Feb 7 2023 */
+    @Column(name = "CAJAREG")
+    private String cajaReg = '';
 }
