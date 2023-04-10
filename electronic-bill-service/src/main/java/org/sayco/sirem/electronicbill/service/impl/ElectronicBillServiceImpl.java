@@ -176,9 +176,11 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
                 empresarioTmp.setFechaModificacion(new Date());
                 empresarioTmp.setFechaRegistroCliente(empresarioOld.get().getFechaRegistroCliente());
                 empresarioTmp.setFechaIngreso(empresarioOld.get().getFechaIngreso());
+                empresarioTmp.setEntidad(empresarioOld.get().getEntidad());
             } else {
                 empresarioTmp.setFechaRegistroCliente(new Date());
                 empresarioTmp.setFechaIngreso(new Date());
+                empresarioTmp.setEntidad(empresario.getEntidad());
             }
             if(empresarioTmp.getEmail() == null)
                 throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_004));

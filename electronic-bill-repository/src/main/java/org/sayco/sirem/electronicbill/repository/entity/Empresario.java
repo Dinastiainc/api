@@ -143,4 +143,10 @@ public class Empresario {
      */
     @Column(name = "IDENTIFICA")
     private String tipoIdentificacion;
+
+    /**
+     * Tipo de identificacion con que se va registrar el empresario
+     */
+    @Column(name = "ENTIDAD")
+    private String entidad;
 }

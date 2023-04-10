@@ -112,5 +112,6 @@ public class EmpresarioDTO {
      */
     private String tipoIdentificacion;
 
+    private String entidad;
 
 }
