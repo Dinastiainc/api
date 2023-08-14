@@ -5,8 +5,18 @@ El puerto por defecto de la API es 8080
 
 ## Generar el artefacto .jar
 
+run command:
+./gradlew :electronic-bill-application:bootJar
+
 Para generar el jar se ejecuta la tarea de gradle bootJar, en .jar se guarda en la carpeta
 "electronic-bill-api\electronic-bill-application\build\libs" dentro del proyecto
+
+## correr el app en local
+
+java -DUSERNAME_DB=sirem -DPASSWORD_DB=sirempruebas -DELECTRONIC_BILL_LOG_PATH=/tmp/logs/ -DURL_DB="jdbc:sqlserver://192.168.0.50:1433;encrypt=true;databaseName=PRUEBAS;schema=dbo;trustServerCertificate=true" -jar electronic-bill-application/build/libs/electronic-bill-application.jar
+
+If you get the error "The server selected protocol version TLS10 is not accepted by client preferences [TLS13, TLS12]" it probably means the algorithm is disalbed on your version of java. Downgrade to Java 8, or edit the file java.config and jdk.tls.disabledAlgorithms
+
 
 ## Generar imagen Docker desde el Docker file
 

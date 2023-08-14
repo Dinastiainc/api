@@ -114,4 +114,5 @@ public class EmpresarioDTO {
 
     private String entidad;
 
+    private String codResp;
 }

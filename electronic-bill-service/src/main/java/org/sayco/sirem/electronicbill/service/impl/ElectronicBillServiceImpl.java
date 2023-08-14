@@ -95,6 +95,10 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
      */
     private final MtMerciaRepository mtMerciaRepository;
 
+
+    private final ClientRespRepository clientRespRepository;
+
+
     /**
      * El constructor donde hace el proceso de inyectar las variable globales de de esta clase
      * @param empresarioRepository
@@ -114,7 +118,8 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
                                      CiudadMappers ciudadMappers, CiudadRepository ciudadRepository,
                                      I18nService i18nService, TradeRepository tradeRepository,
                                      MvTradeRepository mvTradeRepository, RecaudadorRepository recaudadorRepository,
-                                     RecaudadorMappers recaudadorMappers, CuentasRepository cuentasRepository, VendenRepository vendenRepository, MtMerciaRepository mtMerciaRepository) {
+                                     RecaudadorMappers recaudadorMappers, CuentasRepository cuentasRepository, VendenRepository vendenRepository, 
+                                     MtMerciaRepository mtMerciaRepository, ClientRespRepository clientRespRepository) {
         this.empresarioRepository = empresarioRepository;
         this.empresarioMappers = empresarioMappers;
         this.ciudadMappers = ciudadMappers;
@@ -127,6 +132,7 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
         this.cuentasRepository = cuentasRepository;
         this.vendenRepository = vendenRepository;
         this.mtMerciaRepository = mtMerciaRepository;
+        this.clientRespRepository = clientRespRepository;
     }
 
     /**
@@ -189,6 +195,13 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
             empresarioTmp.setEmailProveedor(empresarioTmp.getEmail());
             empresarioTmp.setEmailReseccionFacElec(empresarioTmp.getEmail());
             empresarioTmp.setNombre(empresarioTmp.getNombre());
+
+
+            ClieRespFiscal clientResp = new ClieRespFiscal();
+            clientResp.setCodResp(empresario.getCodResp());
+            clientResp.setNit(empresario.getIdentificacion());
+            clientRespRepository.save(clientResp);
+
             return empresarioMappers.toDTO(empresarioRepository.save(empresarioTmp));
     }
 
