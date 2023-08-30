@@ -8,7 +8,8 @@ public interface I18nService {
         ERR_004,
         ERR_005,
         ERR_006,
-        ERR_007
+        ERR_007,
+        ERR_008
     };
 
     /**

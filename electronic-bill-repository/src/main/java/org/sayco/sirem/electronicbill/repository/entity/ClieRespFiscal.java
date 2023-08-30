@@ -13,8 +13,7 @@ import javax.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
 /**
- * Clase que esta relacionada con la tabla VENDEN que es para el proceso de traer el registro que esta amarrado a la
- * tabla TRADE y MVTRADE
+ * 
  */
 @NoArgsConstructor
 @Data
@@ -25,8 +24,8 @@ public class ClieRespFiscal implements Serializable {
     @Id
     @GenericGenerator(name = "generator", strategy = "guid", parameters = {})
     @GeneratedValue(generator = "generator")
-    @Column(name = "IdClieRespFiscal", columnDefinition="uniqueidentifier")
-    private String id;
+    @Column(name="idclierespfiscal", columnDefinition="uniqueidentifier")
+    private String IdClieRespFiscal;
 
     /**
      * Codigo de responsibilidad fiscal del empresario/cliente

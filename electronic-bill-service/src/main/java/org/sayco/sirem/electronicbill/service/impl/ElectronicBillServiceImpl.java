@@ -196,7 +196,9 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
             empresarioTmp.setEmailReseccionFacElec(empresarioTmp.getEmail());
             empresarioTmp.setNombre(empresarioTmp.getNombre());
 
-
+            if (empresario.getCodResp() == null)
+                throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_008));
+            
             ClieRespFiscal clientResp = new ClieRespFiscal();
             clientResp.setCodResp(empresario.getCodResp());
             clientResp.setNit(empresario.getIdentificacion());

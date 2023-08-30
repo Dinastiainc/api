@@ -32,4 +32,9 @@ docker run -d --name <nombre contenedor> -e ELECTRONIC_BILL_LOG_PATH=/ruta/de/lo
 Ejemplo:
     docker run -d --name electonicBill11 -e ELECTRONIC_BILL_LOG_PATH=/tmp/logs/ -v C:\\tmp\\logs\\:/tmp/logs/  -p 8091:8080 electronic-build-api:v2
 
-edit1. Trigger new deployment.
+I run these 3 commands in sequence:
+```
+./gradlew :electronic-bill-application:bootJar    
+docker build . -t api:v5 
+docker run --env ELECTRONIC_BILL_LOG_PATH=/tmp/logs/ -p 8091:8080 api:v5
+```
