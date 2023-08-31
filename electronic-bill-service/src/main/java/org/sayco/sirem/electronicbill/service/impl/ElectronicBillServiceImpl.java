@@ -198,8 +198,12 @@ public class ElectronicBillServiceImpl implements ElectronicBillService {
 
             if (empresario.getCodResp() == null)
                 throw new ServiceException(i18nService.getMessage(I18nService.MessageCode.ERR_008));
-            
+
             ClieRespFiscal clientResp = new ClieRespFiscal();
+            List<ClieRespFiscal> clientRespOld = clientRespRepository.findByNit(empresario.getIdentificacion());
+            if (!clientRespOld.isEmpty()) {
+                clientResp.setIdClieRespFiscal(clientRespOld.get(0).getIdClieRespFiscal());
+            }
             clientResp.setCodResp(empresario.getCodResp());
             clientResp.setNit(empresario.getIdentificacion());
             clientRespRepository.save(clientResp);
